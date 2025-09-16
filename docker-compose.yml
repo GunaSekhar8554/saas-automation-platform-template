@@ -1,0 +1,160 @@
+version: '3.8'
+
+services:
+  # Frontend - Next.js
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+  # Backend - FastAPI
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/saas_platform
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-change-in-production
+      - ENVIRONMENT=development
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./apps/backend:/app
+    networks:
+      - app-network
+
+  # Agent Services - LLM Agents
+  llm-agents:
+    build:
+      context: ./apps/agent-services/llm-agents
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    volumes:
+      - ./apps/agent-services/llm-agents:/app
+    networks:
+      - app-network
+
+  # Agent Services - Migration Agents
+  migration-agents:
+    build:
+      context: ./apps/agent-services/migration-agents
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - SAP_PI_ENDPOINT=${SAP_PI_ENDPOINT}
+      - SAP_PO_ENDPOINT=${SAP_PO_ENDPOINT}
+      - SAP_BTP_ENDPOINT=${SAP_BTP_ENDPOINT}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    volumes:
+      - ./apps/agent-services/migration-agents:/app
+    networks:
+      - app-network
+
+  # Agent Services - Task Runners
+  task-runners:
+    build:
+      context: ./apps/agent-services/task-runners
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - CELERY_BROKER_URL=redis://redis:6379
+    depends_on:
+      - redis
+    volumes:
+      - ./apps/agent-services/task-runners:/app
+    networks:
+      - app-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: saas_platform
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/backend/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  # Redis for caching and task queue
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+  # Celery Worker for background tasks
+  celery-worker:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    command: celery -A app.core.celery worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/saas_platform
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-change-in-production
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./apps/backend:/app
+    networks:
+      - app-network
+
+  # Celery Flower for monitoring
+  celery-flower:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    command: celery -A app.core.celery flower
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

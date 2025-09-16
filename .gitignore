@@ -1,0 +1,219 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+.next/
+.turbo/
+out/
+target/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary folders
+tmp/
+temp/
+
+# Generated files
+generated/
+**/generated/
+**/*.generated.*
+
+# Docker
+.dockerignore
+
+# Terraform
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/.terraform.lock.hcl
+
+# Kubernetes secrets
+infra/kubernetes/**/secrets/
+
+# Test coverage
+coverage/
+.nyc_output
+
+# Backup files
+*.bak
+*.backup
+
+# SAP specific
+*.jco
+*.log
+
+# Agent specific
+agents/models/
+agents/cache/
+agents/logs/
+
+# Package manager lock files (keep only one)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# TypeScript cache
+*.tsbuildinfo
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# Husky
+.husky/_
+
+# Next.js
+.next/
+out/
+.swc/
+
+# Turborepo
+.turbo/
+
+# Vercel
+.vercel/
+
+# Redis dump
+dump.rdb
+
+# Local development
+.local/
+
+# AI/ML models and datasets
+*.model
+*.pkl
+*.h5
+*.pt
+*.pth
+models/
+datasets/
+
+# API keys and secrets
+secrets/
+.secrets/
+*.key
+*.pem
+*.p12
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# VS Code workspace settings
+.vscode/settings.json
+.vscode/launch.json
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Sentry
+.sentryclirc
+
+# Storybook
+storybook-static/
+
+# Chromatic
+build-storybook.log
+
+# Bundle analyzer
+.bundle-analyzer/
+
+# Local SSL certificates
+*.crt
+*.cert
+
+# Performance monitoring
+.clinic/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.nfs*
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

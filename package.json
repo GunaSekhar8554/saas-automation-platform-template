@@ -1,0 +1,53 @@
+{
+  "name": "saas-automation-platform",
+  "version": "1.0.0",
+  "description": "SaaS automation platform for PI/PO-to-SAP BTP Integration Suite migration using AI agents",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:migrate": "cd apps/backend && alembic upgrade head",
+    "db:seed": "cd apps/backend && python scripts/seed_db.py",
+    "codegen": "turbo run codegen",
+    "agents:deploy": "turbo run deploy --filter=agent-services",
+    "infra:plan": "cd infra/terraform && terraform plan",
+    "infra:apply": "cd infra/terraform && terraform apply"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^2.0.0",
+    "turbo": "^2.0.0",
+    "prettier": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.0",
+    "jest": "^29.0.0",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "packageManager": "npm@10.0.0",
+  "author": "Your Company",
+  "license": "MIT"
+}
