@@ -1,0 +1,36 @@
+{
+  "name": "@saas-platform/agent-services",
+  "version": "0.1.0",
+  "description": "AI-powered agent services for SAP integration and automation",
+  "private": true,
+  "scripts": {
+    "dev": "python -m uvicorn main:app --reload --host 0.0.0.0 --port 8001",
+    "start": "python -m uvicorn main:app --host 0.0.0.0 --port 8001",
+    "test": "python -m pytest tests/ -v",
+    "lint": "flake8 . --max-line-length=88 --extend-ignore=E203,W503",
+    "format": "black . && isort .",
+    "type-check": "mypy ."
+  },
+  "dependencies": {
+    "fastapi": "^0.104.1",
+    "uvicorn": "^0.24.0",
+    "pydantic": "^2.5.0",
+    "sqlalchemy": "^2.0.23",
+    "httpx": "^0.25.2",
+    "redis": "^5.0.1",
+    "celery": "^5.3.4",
+    "openai": "^1.3.0",
+    "anthropic": "^0.7.0",
+    "langchain": "^0.0.350",
+    "requests": "^2.31.0",
+    "python-multipart": "^0.0.6"
+  },
+  "devDependencies": {
+    "pytest": "^7.4.3",
+    "pytest-asyncio": "^0.21.1",
+    "black": "^23.11.0",
+    "flake8": "^6.1.0",
+    "isort": "^5.12.0",
+    "mypy": "^1.7.0"
+  }
+}
